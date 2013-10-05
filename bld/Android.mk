@@ -1,4 +1,5 @@
-LOCAL_PATH := external/dnsmasq/src
+DNSMASQ_BLD := $(call my-dir)
+LOCAL_PATH := $(DNSMASQ_BLD)/../src
 
 #########################
 
@@ -12,9 +13,11 @@ LOCAL_SRC_FILES :=  bpf.c cache.c dbus.c dhcp.c dnsmasq.c \
 
 LOCAL_MODULE := dnsmasq
 
-LOCAL_C_INCLUDES := external/dnsmasq/src
+LOCAL_C_INCLUDES := $(LOCAL_PATH)
 
-LOCAL_CFLAGS := -O2 -g -W -Wall -D__ANDROID__ -DNO_IPV6 -DNO_TFTP -DNO_SCRIPT
+DNSMASQ_VERSION := \"`$(DNSMASQ_BLD)/get-version $(DNSMASQ_BLD)/..`\"
+LOCAL_CFLAGS := -O2 -g -W -Wall -DVERSION=$(DNSMASQ_VERSION) -D__ANDROID__ -DNO_IPV6 -DNO_TFTP -DNO_SCRIPT
+LOCAL_CPPFLAGS := -DVERSION=$(DNSMASQ_VERSION)
 LOCAL_SYSTEM_SHARED_LIBRARIES := libc libcutils
 
 LOCAL_LDLIBS := -L$(SYSROOT)/usr/lib -llog
